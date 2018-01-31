@@ -1,7 +1,7 @@
 FROM centos
 
 ENV JENKINS_SWARM_VERSION 3.8
-ENV JNLP_SLAVE_VERSION 2.52
+ENV JNLP_SLAVE_VERSION 3.9
 ENV HOME /opt/jenkins-slave
 ENV MAVEN_VERSION 3.5.2
 ENV GRADLE_VERSION 4.5
@@ -21,7 +21,7 @@ RUN ln -s /usr/share/gradle/bin/gradle /usr/bin/gradle
 COPY jenkins-slave.sh /opt/jenkins-slave/bin/
 
 # Download plugin and modify permissions
-RUN curl --create-dirs -sSLo /opt/jenkins-slave/bin/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar \
+RUN curl --create-dirs -sSLo /opt/jenkins-slave/bin/swarm-client-$JENKINS_SWARM_VERSION-jar-with-dependencies.jar http://repo.jenkins-ci.org/releases/org/jenkins-ci/plugins/swarm-client/$JENKINS_SWARM_VERSION/swarm-client-$JENKINS_SWARM_VERSION.jar \
   && curl --create-dirs -sSLo /opt/jenkins-slave/bin/slave.jar http://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/$JNLP_SLAVE_VERSION/remoting-$JNLP_SLAVE_VERSION.jar \
   && chmod -R 775 /opt/jenkins-slave /var/lib/jenkins && \
   chown -R jenkins-slave:root /opt/jenkins-slave /var/lib/jenkins
