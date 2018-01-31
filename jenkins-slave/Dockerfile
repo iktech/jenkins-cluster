@@ -1,9 +1,10 @@
-FROM registry.access.redhat.com/rhel7/rhel
+FROM centos
 
 ENV JENKINS_SWARM_VERSION 2.0
 ENV JNLP_SLAVE_VERSION 2.52
 ENV HOME /opt/jenkins-slave
-ENV MAVEN_VERSION 3.3.3
+ENV MAVEN_VERSION 3.5.2
+ENV GRADLE_VERSION 4.5
 ENV JAVA_HOME /usr/lib/jvm/java
 
 RUN yum install -y git tar zip unzip which java-1.8.0-openjdk-devel && \
@@ -13,6 +14,8 @@ RUN yum install -y git tar zip unzip which java-1.8.0-openjdk-devel && \
     curl -fsSL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
       && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
       && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+ADD https://services.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip /usr/share/gradle
+RUN ln -s /usr/share/gradle/bin/gradle /usr/bin/gradle
 
 # Copy script
 COPY jenkins-slave.sh /opt/jenkins-slave/bin/
